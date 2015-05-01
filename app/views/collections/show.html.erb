@@ -1,0 +1,94 @@
+<p id="notice"><%= notice %></p>
+
+<ol class="breadcrumb">
+  <li><%= link_to 'Listagem de Coleções', collections_path %></li>
+  <li class="active"><%= @collection.name %></li>
+</ol>
+
+<h1><%= @collection.name %></h1>
+
+<div class:"row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-body detail">
+        <h2><%= @collection.name %></h2>
+        <hr>
+        <p><strong>Itens Catalogados:</strong><%= cataloged_items(@collection) %></p>
+        <hr>
+        <p><strong>Itens Adquiridos:</strong><%= acquired_items(@collection) %></p>
+        <hr>
+        <p><strong>Itens Faltantes:</strong><%= missing_items(@collection) %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-body detail">
+      <div id="container" style="min-width: 310px; height:415px; max-width:600px; margin: 0 auto"  >
+        <h2><%= @collection.name %></h2>
+        <hr>
+        <p><strong>Itens Catalogados:</strong><%= cataloged_items(@collection) %></p>
+        <hr>
+        <p><strong>Itens Adquiridos:</strong><%= acquired_items(@collection) %></p>
+        <hr>
+        <p><strong>Itens Faltantes:</strong><%= missing_items(@collection) %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>
+  <strong>Itens:</strong>
+  <%= link_to 'Visualizar', collection_items_path(@collection) %>
+</p>
+
+
+
+<div class="actions">
+  <%= link_to 'Editar coleção', edit_collection_path(@collection), class: 'btn btn-primary' %>
+  <%= link_to 'Voltar', collections_path, class: 'btn btn-link' %>
+</div>
+
+<script>
+$(function () {
+  $('#container').highcharts({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: 0,
+      plotShadow: false
+    },
+    title: false,
+    tooltip: {
+      pointFormat: '<b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+      pie: {
+        dataLabels: {
+          enabled: true,
+          distance: -50,
+          style: {
+            fontWeight: 'normal',
+            fontSize: '13px',
+            color: 'white',
+            textShadow: '0px 1px 2px black'
+          }
+        },
+        startAngle: -90,
+        endAngle: 90,
+        center: ['50%', '75%']
+      }
+    },
+    series: [{
+      type: 'pie',
+      name: 'Itens',
+      innerSize: '50%',
+      data: [['Adquirido', <%= percentage_acquired(@collection) %>],['Faltante',<%= percentage_missing(@collection) %>]]
+    }],
+    credits: {
+      enabled: false
+    }
+  });
+});
+</script>

@@ -1,0 +1,25 @@
+<%= form_for(@collection) do |f| %>
+  <% if @collection.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@collection.errors.count, "error") %> prohibited this collection from being saved:</h2>
+
+      <ul>
+      <% @collection.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group row">
+    <div class="col-sm-4">
+      <%= f.label :name, 'Nome' %>
+      <%= f.text_field :name, placeholder: 'Informe o nome da coleção', class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit value, class: 'btn btn-success', data: { disable_with: 'Aguarde...' } %>
+    <%= link_to 'Voltar', collections_path, class: 'btn btn-link' %>
+  </div>
+<% end %>
